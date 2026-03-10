@@ -160,6 +160,8 @@ Frontend runs at http://localhost:3000
 docker-compose up --build
 ```
 
+This Docker workflow expects local ports `3000` and `8000` to be available.
+
 ## Usage
 
 1. Open http://localhost:3000
