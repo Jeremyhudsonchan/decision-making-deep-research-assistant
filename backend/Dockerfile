@@ -5,14 +5,13 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-# Copy dependency files first for layer caching
-COPY pyproject.toml .
+# Healthcheck uses curl, so install it in the runtime image.
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-RUN uv sync --no-dev
-
-# Copy application code
+# Copy application code and install dependencies.
 COPY . .
+RUN uv sync --no-dev
 
 # Create data directory for SQLite
 RUN mkdir -p /app/data
